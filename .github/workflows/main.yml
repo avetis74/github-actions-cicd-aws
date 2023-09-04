@@ -1,0 +1,25 @@
+name: CI-CD-Pipeline-to-AWS_EB
+env:
+  EB_PACKAGE_S3_BUCKET_NAME : "application-packages"
+  EB_APPLICATION_NAME       : "MyPython"
+  EB_ENVIRONMENT_NAME       : "MyPython-env"
+  DEPLOY_PACKAGE_NAME       : "Python_app_${{ github.sha }}.zip"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  my_ci_part:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Git clone our repo
+      uses: actions/checkout@v1
+
+
+    - name: Create Zip deployment package
+      run : zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ -x *.git*
+
+  
